@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Github Profile</title>
+
+  <style>
+    :root{
+      --bg0:#05081a;
+      --bg1:#0b0f2e;
+      --bg2:#1a1b5a;
+
+      --text:#f4f6ff;
+      --muted:rgba(244,246,255,.72);
+
+      --panel:rgba(255,255,255,.06);
+      --panel2:rgba(255,255,255,.09);
+      --border:rgba(255,255,255,.14);
+
+      --link:#7dd3fc;
+      --underline:#fd8c73;
+
+      --chip:rgba(125,211,252,.14);
+      --chipBorder:rgba(125,211,252,.30);
+      --chipText:#bfe8ff;
+
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(900px 520px at 22% 18%, rgba(124,58,237,.45), transparent 60%),
+        radial-gradient(800px 480px at 78% 22%, rgba(6,182,212,.25), transparent 62%),
+        radial-gradient(900px 520px at 50% 92%, rgba(168,85,247,.18), transparent 62%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 45%, var(--bg2));
+      color: var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image: radial-gradient(rgba(255,255,255,.20) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity:.07;
+      mix-blend-mode: overlay;
+    }
+
+    .container{
+      width: min(980px, 92vw);
+      margin: 0 auto;
+      padding: 24px 0 60px;
+    }
+
+    .topbar{
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(10px);
+    }
+    .topbarInner{
+      width: min(980px, 92vw);
+      margin: 0 auto;
+      padding: 14px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .brand{
+      font-weight: 800;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      letter-spacing:.2px;
+    }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(124,58,237,1), rgba(6,182,212,1));
+      box-shadow: 0 0 0 7px rgba(124,58,237,.10);
+    }
+
+    .nav a{
+      text-decoration:none;
+      color: var(--muted);
+      font-weight: 700;
+      margin-left: 14px;
+    }
+    .nav a:hover{ color: rgba(244,246,255,.92); }
+    .nav a.active{
+      color: var(--text);
+      border-bottom: 2px solid var(--underline);
+      padding-bottom: 12px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+    @media (max-width: 820px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .avatarCard{
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: linear-gradient(180deg, var(--panel2), var(--panel));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .avatar{
+      width: 100%;
+      max-width: 240px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 50%;
+      display:block;
+      margin: 0 auto 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 14px 45px rgba(0,0,0,.35);
+    }
+
+    .name{
+      font-size: 24px;
+      font-weight: 900;
+      margin: 0;
+      text-align:center;
+      letter-spacing:.2px;
+    }
+
+    .role{
+      text-align:center;
+      color: var(--muted);
+      margin-top: 6px;
+      font-weight: 650;
+      font-size: 14px;
+      line-height:1.35;
+    }
+
+    .btnRow{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-weight: 800;
+      cursor:pointer;
+      text-decoration:none;
+      transition: transform .12s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .panel{
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow:hidden;
+      background: linear-gradient(180deg, var(--panel2), var(--panel));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .tabs{
+      display:flex;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+    }
+
+    .tab{
+      padding: 12px 14px;
+      font-weight: 900;
+      color: var(--muted);
+      cursor:pointer;
+      border-right: 1px solid var(--border);
+      user-select:none;
+      transition: background .2s ease, color .2s ease;
+    }
+    .tab:hover{ background: rgba(255,255,255,.06); color: rgba(244,246,255,.92); }
+    .tab.active{
+      color: var(--text);
+      background: rgba(0,0,0,.14);
+      border-bottom: 2px solid var(--underline);
+    }
+
+    .content{ padding: 16px; }
+
+    .row{
+      padding: 12px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      margin-bottom: 10px;
+    }
+
+    .label{
+      font-weight: 900;
+      margin-bottom: 6px;
+      color: rgba(244,246,255,.94);
+    }
+    .value{
+      color: var(--muted);
+      font-weight: 650;
+      line-height: 1.5;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip{
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--chip);
+      border: 1px solid var(--chipBorder);
+      color: var(--chipText);
+      font-weight: 900;
+      font-size: 12px;
+      cursor:pointer;
+      transition: transform .12s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      background: rgba(125,211,252,.18);
+      border-color: rgba(125,211,252,.42);
+    }
+    .chip.active{
+      background: rgba(34,197,94,.18);
+      border-color: rgba(34,197,94,.40);
+      color: rgba(207,255,225,.95);
+    }
+
+    .hint{
+      margin-top: 10px;
+      color: rgba(244,246,255,.65);
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    /* Skill details panel */
+    .skillDetails{
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(0,0,0,.16);
+    }
+    .skillTitle{
+      font-weight: 950;
+      margin: 0 0 6px;
+      letter-spacing:.2px;
+    }
+    .pillRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin: 8px 0 10px;
+    }
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: rgba(244,246,255,.85);
+      font-weight: 850;
+      font-size: 12px;
+    }
+
+    .hidden{ display:none; }
+
+    a.link{
+      color: var(--link);
+      font-weight: 900;
+      text-decoration:none;
+    }
+    a.link:hover{ text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="topbarInner">
+      <div class="brand"><span class="dot"></span> PROFILE</div>
+      <div class="nav">
+        <a href="#overview" class="navlink active" data-nav="overview">Overview</a>
+        <a href="#skills" class="navlink" data-nav="skills">Skills</a>
+        <a href="#links" class="navlink" data-nav="links">Links</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      <!-- LEFT: PROFILE -->
+      <div class="avatarCard" id="overview">
+        <img class="avatar" src="pichex.jpg" alt="Hex Allain Guirigay"/>
+        <h1 class="name">Hex Allain Guirigay</h1>
+        <div class="role">Full Stack Developer • Schools Division Office of Zamboanga del Sur</div>
+
+        <div class="btnRow">
+          <a class="btn" href="https://github.com/SkyXD23" target="_blank" rel="noreferrer">View GitHub</a>
+          <button class="btn" id="copyGit">Copy GitHub URL</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: CONTENT -->
+      <div class="panel">
+        <div class="tabs">
+          <div class="tab active" data-tab="tabOverview">Overview</div>
+          <div class="tab" data-tab="tabSkills">Skills</div>
+          <div class="tab" data-tab="tabLinks">Links</div>
+        </div>
+
+        <div class="content">
+          <!-- Overview -->
+          <div id="tabOverview">
+            <div class="row">
+              <div class="label">Address</div>
+              <div class="value">Dao, Pagadian City, Zamboanga del Sur</div>
+            </div>
+
+            <div class="row">
+              <div class="label">Work</div>
+              <div class="value">Schools Division Office of Zamboanga del Sur</div>
+            </div>
+
+            <div class="row">
+              <div class="label">Degree Earned</div>
+              <div class="value">Bachelor of Science in Computer Science</div>
+            </div>
+
+            <div class="row">
+              <div class="label">Year Graduated / School</div>
+              <div class="value">2022 • Misamis University, Ozamiz City</div>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div id="tabSkills" class="hidden">
+            <div class="row" id="skills">
+              <div class="label">Specialization</div>
+              <div class="value">Click a skill to select it and view details below.</div>
+
+              <div class="chips" id="chips"></div>
+              <div class="hint" id="selectedHint">Selected: <b>None</b></div>
+
+              <!-- Details appear here -->
+              <div class="skillDetails hidden" id="skillDetails">
+                <h3 class="skillTitle" id="skillName">Skill</h3>
+                <div class="pillRow">
+                  <span class="pill" id="skillYear">Created: —</span>
+                  <span class="pill" id="skillType">Type: —</span>
+                </div>
+                <div class="value" id="skillDesc">Click a skill chip to see details.</div>
+                <div class="hint" id="skillExamples"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Links -->
+          <div id="tabLinks" class="hidden">
+            <div class="row" id="links">
+              <div class="label">GitHub</div>
+              <div class="value">
+                <a class="link" href="https://github.com/SkyXD23" target="_blank" rel="noreferrer">
+                  https://github.com/SkyXD23
+                </a>
+              </div>
+              <div class="hint">You can visit my github page here.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Tabs
+  const tabs = document.querySelectorAll(".tab");
+  const views = {
+    tabOverview: document.getElementById("tabOverview"),
+    tabSkills: document.getElementById("tabSkills"),
+    tabLinks: document.getElementById("tabLinks")
+  };
+
+  tabs.forEach(t => {
+    t.addEventListener("click", () => {
+      tabs.forEach(x => x.classList.remove("active"));
+      t.classList.add("active");
+
+      Object.values(views).forEach(v => v.classList.add("hidden"));
+      views[t.dataset.tab].classList.remove("hidden");
+    });
+  });
+
+  // Skill info database (concise + classroom-friendly)
+  const SKILL_INFO = {
+    "JavaScript": {
+      year: "1995",
+      type: "Programming language",
+      desc: "A scripting language for the web used to build interactive websites and modern web apps (frontend and backend via Node.js).",
+      examples: "Famous uses: Gmail, Facebook, YouTube, Google Maps, Netflix (web), Node.js apps."
+    },
+    "Java": {
+      year: "1995",
+      type: "Programming language",
+      desc: "A general-purpose, object-oriented language designed for portability (\"write once, run anywhere\"), widely used in enterprise and Android apps.",
+      examples: "Famous uses: Android apps, Minecraft, large enterprise systems, banking platforms."
+    },
+    "C#": {
+      year: "2000",
+      type: "Programming language",
+      desc: "A modern language created by Microsoft for building Windows apps, web APIs, enterprise systems, and games using the .NET platform.",
+      examples: "Famous uses: Unity games, .NET web apps/APIs, Microsoft tools, enterprise systems."
+    },
+    "C++": {
+      year: "1985",
+      type: "Programming language",
+      desc: "A high-performance language used for systems software and applications where speed matters (games, engines, browsers).",
+      examples: "Famous uses: Unreal Engine, parts of Chrome/Firefox, Adobe apps, many game engines."
+    },
+    "Python": {
+      year: "1991",
+      type: "Programming language",
+      desc: "A readable, high-level language popular for automation, data science, AI/ML, web backends, and scripting.",
+      examples: "Famous uses: Instagram (backend), YouTube (early), data/AI tools, automation scripts."
+    },
+    "PHP": {
+      year: "1995",
+      type: "Server-side scripting",
+      desc: "A server-side language commonly used to build dynamic websites and web systems, especially with databases.",
+      examples: "Famous uses: WordPress, Facebook (early), Wikipedia (early), many CMS sites."
+    },
+    "React": {
+      year: "2013",
+      type: "JavaScript library",
+      desc: "A UI library for building component-based, fast web interfaces using a virtual DOM approach.",
+      examples: "Famous uses: Facebook, Instagram, many dashboards and modern web apps."
+    },
+    "Next.js": {
+      year: "2016",
+      type: "React framework",
+      desc: "A React framework enabling server-side rendering, routing, and performance optimizations for production web apps.",
+      examples: "Famous uses: Vercel-hosted sites, e-commerce stores, SaaS dashboards, marketing sites."
+    },
+    "MySQL": {
+      year: "1995",
+      type: "Relational database",
+      desc: "A widely-used open-source SQL database for storing and managing structured data for websites and applications.",
+      examples: "Famous uses: many web apps, CMS platforms, e-commerce systems, business databases."
+    },
+    "Firebird": {
+      year: "2000",
+      type: "Relational database",
+      desc: "An open-source SQL database known for being lightweight and reliable, often used in desktop and embedded business systems.",
+      examples: "Famous uses: ERP/HR systems, local business apps, legacy systems (especially where lightweight DB is needed)."
+    }
+  };
+
+  // Interactive skill chips + details
+  const skills = Object.keys(SKILL_INFO);
+  const chips = document.getElementById("chips");
+  const selectedHint = document.getElementById("selectedHint");
+  const selected = new Set();
+  let lastClicked = null;
+
+  const skillDetails = document.getElementById("skillDetails");
+  const skillName = document.getElementById("skillName");
+  const skillYear = document.getElementById("skillYear");
+  const skillType = document.getElementById("skillType");
+  const skillDesc = document.getElementById("skillDesc");
+  const skillExamples = document.getElementById("skillExamples");
+
+  function showDetails(skill){
+    const info = SKILL_INFO[skill];
+    if(!info) return;
+
+    skillDetails.classList.remove("hidden");
+    skillName.textContent = skill;
+    skillYear.textContent = "Created: " + info.year;
+    skillType.textContent = "Type: " + info.type;
+    skillDesc.textContent = info.desc;
+    skillExamples.innerHTML = "<b>Famous applications:</b> " + info.examples;
+  }
+
+  function renderChips(){
+    chips.innerHTML = "";
+    skills.forEach(s => {
+      const el = document.createElement("span");
+      el.className = "chip" + (selected.has(s) ? " active" : "");
+      el.textContent = s;
+      el.onclick = () => {
+        // toggle select
+        if(selected.has(s)) selected.delete(s);
+        else selected.add(s);
+
+        lastClicked = s;
+        renderChips();
+
+        selectedHint.innerHTML = "Selected: <b>" + (selected.size ? Array.from(selected).join(", ") : "None") + "</b>";
+        showDetails(s);
+      };
+      chips.appendChild(el);
+    });
+  }
+  renderChips();
+
+  // Copy GitHub URL
+  const gitUrl = "https://github.com/SkyXD23";
+  document.getElementById("copyGit").addEventListener("click", async () => {
+    try{
+      await navigator.clipboard.writeText(gitUrl);
+      alert("Copied: " + gitUrl);
+    }catch(e){
+      prompt("Copy this link:", gitUrl);
+    }
+  });
+
+  // Optional: highlight nav item based on hash
+  const navlinks = document.querySelectorAll(".navlink");
+  function setActiveNav(key){
+    navlinks.forEach(a => a.classList.toggle("active", a.dataset.nav === key));
+  }
+  window.addEventListener("hashchange", () => {
+    const h = (location.hash || "#overview").replace("#","");
+    setActiveNav(h);
+  });
+</script>
+</body>
+</html>
